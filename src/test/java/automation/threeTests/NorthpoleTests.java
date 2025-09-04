@@ -1,17 +1,26 @@
 package automation.threeTests;
 
-import automation.threeTests.pages.NorthpoleLoginPagePage;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import automation.threeTests.pages.NorthpoleLoginPage;
+import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
 public class NorthpoleTests extends AbstractTest {
-    private static NorthpoleLoginPagePage northpolePage;
+    private static NorthpoleLoginPage northpolePage;
+    private static String EMAIL = ConfProperties.getProperty("NorthpoleEmail");
+    private static String PASSWORD = ConfProperties.getProperty("NorthpolePassword");
+    private static String LOGIN_TEXT = ConfProperties.getProperty("NorthpoleLoginTestText");
+    private static String TOY_SECTION_TEXT = ConfProperties.getProperty("NorthpoleToysSectionTestText");
 
-    @BeforeClass
-    public static void initPage() {
-        northpolePage = new NorthpoleLoginPagePage(driver);
+    @Before
+    public void setUpTest() {
+        // каждый тест заново открывает браузер
+        super.setUp();
+        northpolePage = new NorthpoleLoginPage(driver);
+    }
+
+    @After
+    public void tearDownTest() {
+        super.shutDown();
     }
 
     @Test
@@ -23,16 +32,31 @@ public class NorthpoleTests extends AbstractTest {
     @Test
     public void toysSectionTest() {
         northpolePage.openToySection();
-        assertEquals(
-                "I’m the elf in charge of the Toy Shop, and I can help you find toys! " +
-                        "Just click on one of our three toy shelves: Unique, Popular, or Educational Toys to see toys in these or other categories.",
-                northpolePage.getToyText()
+        assertEquals(TOY_SECTION_TEXT,
+        northpolePage.getToyText()
         );
+    }
+
+    /*@Test
+    public void loginTest() {
+        northpolePage.login(EMAIL, PASSWORD);
+        assertEquals(LOGIN_TEXT, northpolePage.getHeaderText());
+    }*/
+
+    private String normalizeText(String text) {
+        if (text == null) return null;
+        // Убираем апострофы разных видов
+        return text.replace("'", "").replace("’", "").trim();
     }
 
     @Test
     public void loginTest() {
-        northpolePage.login("hhh.hhh96@yandex.ru", "Colos");
-        assertEquals("Hello, Oleg! What would you like to do?", northpolePage.getHeaderText());
+        northpolePage.login(EMAIL, PASSWORD);
+
+        // Сравниваем нормализованный текст
+        assertEquals(
+                normalizeText(LOGIN_TEXT),
+                normalizeText(northpolePage.getHeaderText())
+        );
     }
 }

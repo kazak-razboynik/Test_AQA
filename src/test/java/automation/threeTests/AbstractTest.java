@@ -16,17 +16,20 @@ public abstract class AbstractTest {
 
     @BeforeClass
     public static void setUp() {
-        System.setProperty("webdriver.chrome.driver", WEBDRIVER);
-
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        driver.get(URL);
+        if (driver == null) {
+            System.setProperty("webdriver.chrome.driver", WEBDRIVER);
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            driver.get(URL);
+        }
     }
 
     @AfterClass
     public static void shutDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
     }
 }
