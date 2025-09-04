@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractTest {
     public static WebDriver driver;
 
-    public static String URL = ConfProperties.getProperty("loginpage");
+    public static String URL = ConfProperties.getProperty("northpole");
     public static String WEBDRIVER = ConfProperties.getProperty("chromedriver");
 
     @BeforeClass
