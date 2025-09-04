@@ -36,12 +36,6 @@ public class NorthpoleTests extends AbstractTest {
         );
     }
 
-    /*@Test
-    public void loginTest() {
-        northpolePage.login(EMAIL, PASSWORD);
-        assertEquals(LOGIN_TEXT, northpolePage.getHeaderText());
-    }*/
-
     private String normalizeText(String text) {
         if (text == null) return null;
         return text.replace("'", "").replace("’", "").trim();
