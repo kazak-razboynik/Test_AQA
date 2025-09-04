@@ -13,7 +13,6 @@ public class NorthpoleTests extends AbstractTest {
 
     @Before
     public void setUpTest() {
-        // каждый тест заново открывает браузер
         super.setUp();
         northpolePage = new NorthpoleLoginPage(driver);
     }
@@ -45,7 +44,6 @@ public class NorthpoleTests extends AbstractTest {
 
     private String normalizeText(String text) {
         if (text == null) return null;
-        // Убираем апострофы разных видов
         return text.replace("'", "").replace("’", "").trim();
     }
 
@@ -53,7 +51,7 @@ public class NorthpoleTests extends AbstractTest {
     public void loginTest() {
         northpolePage.login(EMAIL, PASSWORD);
 
-        // Сравниваем нормализованный текст
+
         assertEquals(
                 normalizeText(LOGIN_TEXT),
                 normalizeText(northpolePage.getHeaderText())
